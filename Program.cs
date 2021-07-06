@@ -15,7 +15,9 @@ namespace GenPageList
             DataModel.pagelist.Data data = new DataModel.pagelist.Data();
             data.url = "https://usefuledge.com/csharp-json.html";
 
-            Console.WriteLine(await GetWebTitle(data.url));
+            data.title = await GetWebTitle(data.url);
+
+            Console.WriteLine(data.url + "\t" + data.title);
 
         }
 
@@ -36,9 +38,9 @@ namespace GenPageList
                 return document.Title;
 
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                throw;
+                return e.Message;
             }
         }
     }
