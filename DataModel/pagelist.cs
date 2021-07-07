@@ -16,6 +16,7 @@ namespace GenPageList.DataModel
             public string Title {get; set;}
             public int Status404 {get; set;}
             public int PageView {get; set;}
+            public int ProcessFlag {get; set;}
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace GenPageList.DataModel
             {
                 cn.Open();
 
-                string sql = $"INSERT  INTO  FileList values ('{data.URL}', '{data.Title}', {data.Status404}, {data.PageView})";
+                string sql = $"INSERT  INTO  FileList values ('{data.URL}', '{data.Title}', {data.Status404}, {data.PageView}, {data.ProcessFlag})";
                 SQLiteCommand cmd = new SQLiteCommand(sql, cn);
                 cmd.ExecuteNonQuery();
 
@@ -76,31 +77,59 @@ namespace GenPageList.DataModel
                     data.Title = "";
                     data.Status404 = 0;
                     data.PageView = 0;
+                    data.ProcessFlag = 0;
 
                     AddRecord(data);
                 }
         }
 
         /// <summary>
-        /// FileListテーブルのレコードを全件取得する
+        /// FileListテーブルのレコードを取得する
         /// </summary>
-        /// <returns>List<Data></returns>
-        public List<Data> GetAllData()
+        /// <param name="sql">SELECT SQL文字列</param>
+        /// <returns></returns>
+        public static List<Data> GetData(string sql)
         {
             List<Data> allData = new List<Data>();
             Data record = new Data();
 
-            // SELECT  *  FROM  FileList;
-            record.URL = "";
-            record.Title = "";
-            record.Status404 = 0;
-            record.PageView = 0;
+             var sqlConnectionSB = new SQLiteConnectionStringBuilder{DataSource = dataSource};
 
-            allData.Add(record);
+            using(var cn = new SQLiteConnection(sqlConnectionSB.ToString()))
+            {
+                cn.Open();
+                SQLiteCommand cmd = new SQLiteCommand(sql, cn);
+
+                SQLiteDataReader sdr = cmd.ExecuteReader();
+
+                while(sdr.Read() == true)
+                {
+                    record = new Data();
+
+                    record.URL = (string)sdr["URL"];
+                    record.Title = (string)sdr["Title"];
+                    record.Status404 = Convert.ToInt32((int)sdr["Status404"]);
+                    record.PageView = Convert.ToInt32((int)sdr["PageView"]);
+                    record.ProcessFlag = Convert.ToInt32((int)sdr["ProcessFlag"]);
+
+                    allData.Add(record);
+                }
+
+            }
 
             return allData;
         }
 
+
+        public static List<Data> GetAllData()
+        {
+            string sql = "SELECT  *  FROM  FileList";
+            List<Data> allData = new List<Data>();
+
+            allData = GetData(sql);
+
+            return allData;
+        }
 
 
 

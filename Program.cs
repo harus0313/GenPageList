@@ -2,20 +2,27 @@
 using AngleSharp.Html.Parser;
 using System.Net;
 using System.Threading.Tasks;
-
-using System.Data.SQLite;
-
 using System;
+
+using System.Collections.Generic;
 
 namespace GenPageList
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
 
             DataModel.pagelist.DeleteInsert();
 
+            /*
+            List<DataModel.pagelist.Data> allData = new List<DataModel.pagelist.Data>();
+            allData = DataModel.pagelist.GetAllData();
+
+            foreach(DataModel.pagelist.Data record in allData)
+            {
+                Console.WriteLine(record.URL);
+            }
 
             DataModel.pagelist.Data data = new DataModel.pagelist.Data();
             data.URL = "https://usefuledge.com/csharp-json.html";
@@ -23,6 +30,8 @@ namespace GenPageList
             data.Title = await GetWebTitle(data.URL);
 
             Console.WriteLine(data.URL + "\t" + data.Title);
+            */
+
 
         }
 
