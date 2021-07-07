@@ -3,6 +3,8 @@ using AngleSharp.Html.Parser;
 using System.Net;
 using System.Threading.Tasks;
 
+using System.Data.SQLite;
+
 using System;
 
 namespace GenPageList
@@ -12,12 +14,15 @@ namespace GenPageList
         static async Task Main(string[] args)
         {
 
+            DataModel.pagelist.Insert();
+
+
             DataModel.pagelist.Data data = new DataModel.pagelist.Data();
-            data.url = "https://usefuledge.com/csharp-json.html";
+            data.URL = "https://usefuledge.com/csharp-json.html";
 
-            data.title = await GetWebTitle(data.url);
+            data.Title = await GetWebTitle(data.URL);
 
-            Console.WriteLine(data.url + "\t" + data.title);
+            Console.WriteLine(data.URL + "\t" + data.Title);
 
         }
 
