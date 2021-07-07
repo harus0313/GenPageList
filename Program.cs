@@ -14,7 +14,7 @@ namespace GenPageList
         static async Task Main(string[] args)
         {
 
-            DataModel.pagelist.Insert();
+            DataModel.pagelist.DeleteInsert();
 
 
             DataModel.pagelist.Data data = new DataModel.pagelist.Data();
