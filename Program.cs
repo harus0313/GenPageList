@@ -10,52 +10,25 @@ namespace GenPageList
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
-            DataModel.pagelist.DeleteInsert();
+            await DataModel.pagelist.UpdateTite();
 
-            /*
-            List<DataModel.pagelist.Data> allData = new List<DataModel.pagelist.Data>();
-            allData = DataModel.pagelist.GetAllData();
-
-            foreach(DataModel.pagelist.Data record in allData)
-            {
-                Console.WriteLine(record.URL);
-            }
-
-            DataModel.pagelist.Data data = new DataModel.pagelist.Data();
-            data.URL = "https://usefuledge.com/csharp-json.html";
-
-            data.Title = await GetWebTitle(data.URL);
-
-            Console.WriteLine(data.URL + "\t" + data.Title);
-            */
-
-
-        }
-
-
-        static async Task<string> GetWebTitle(string url)
-        {
-            WebClient wc = new WebClient();
+//            DataModel.pagelist.DeleteInsert();
+/*
             try
             {
-                string htmldocs = wc.DownloadString(url);
-
-                var config = Configuration.Default;
-                var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(req => req.Content(htmldocs));
-
-                //Console.WriteLine(document.Title);
-
-                return document.Title;
-
+                string url = "https://usefuledge.com/00001-easy-to-select-cooking-recipe.html";
+                string title = await DataModel.pagelist.GetPageTitle(url);
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
-                return e.Message;
+                Console.WriteLine("404");
             }
+*/
+
         }
+
     }
 }
