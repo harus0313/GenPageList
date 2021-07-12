@@ -13,7 +13,9 @@ namespace GenPageList
         static async Task Main(string[] args)
         {
 
-            await DataModel.pagelist.UpdateTite();
+            //await DataModel.pagelist.UpdateTite();
+            //DataModel.pagelist.OutputSitemapMd();
+            DataModel.pagelist.MarkdownToHTML();
 
 //            DataModel.pagelist.DeleteInsert();
 /*

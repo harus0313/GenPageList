@@ -7,6 +7,10 @@ using AngleSharp;
 using AngleSharp.Html.Parser;
 using System.Net;
 
+using System.IO;
+
+using Markdig;
+
 
 namespace GenPageList.DataModel
 {
@@ -15,6 +19,8 @@ namespace GenPageList.DataModel
 
         public static string dataSource = @"./Input/filelist.db";
         public static string fileListPath = @"./Input/filelist.txt";
+        public static string markdownFilePath = @"./Output/sitemap.md";
+        public static string sitemapHTMLFilePath = @"./Output/sitemap.html";
 
         public class Data
         {
@@ -210,6 +216,38 @@ namespace GenPageList.DataModel
             }
 
 
+        }
+
+        public static void OutputSitemapMd()
+        {
+            string sql = "select  *  from  FileList  where  Status404 = '0'";
+            List<Data> alldata = new List<Data>();
+            alldata = GetData(sql);
+ 
+            using(StreamWriter sw = new StreamWriter(markdownFilePath))
+            {
+                foreach(Data data in alldata)
+                {
+                    string line = $"- [{data.Title}]({data.URL})";
+                    sw.WriteLine(line);
+                }
+
+
+
+            }
+        }
+
+        public static void MarkdownToHTML()
+        {
+            Markdig.MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder().UsePipeTables().Build();
+            string fileContents = System.IO.File.ReadAllText(markdownFilePath);
+
+            string mdContents = Markdown.ToHtml(fileContents,markdownPipeline);
+
+            using(StreamWriter sw = new StreamWriter(sitemapHTMLFilePath))
+            {
+                sw.WriteLine(mdContents);
+            }
         }
 
 
